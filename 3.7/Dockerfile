@@ -178,6 +178,6 @@ RUN chown -R 1001:0 /opt/app-root \
     && chmod ug+s /run /var/run \
     && chown 1001 /var/run /run 
 
-ENTRYPOINT [ "/sbin/tini", "-g" ,"--", "container-entrypoint", "docker-entrypoint" ]
+ENTRYPOINT [ "/sbin/tini", "-g" ,"--", "container-entrypoint" ]
 
 USER 1001
