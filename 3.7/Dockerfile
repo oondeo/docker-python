@@ -68,13 +68,13 @@ WORKDIR ${HOME}
 # FROM python:$PYTHON_VERSION-alpine$ALPINE_VERSION as python
 # RUN apk add --no-cache --virtual .build-deps  $BUILD_DEPS
 ENV VENV_HOME="$HOME/.env" \
-    PYTHON_BIN="/usr/bin/python" 
+    PYTHON_BIN="python" 
 
 ENV PIP_NO_CACHE_DIR=off \
     PYTHONUNBUFFERED=1 \
     PYTHONIOENCODING=UTF-8 \
     PYTHONDONTWRITEBYTECODE='' \
-    PIP_BIN="/usr/bin/pip"
+    PIP_BIN="pip"
 
 ARG RUN_DEPS='curl rsync git'
 RUN apk-install -t .run-deps $RUN_DEPS
@@ -156,12 +156,13 @@ ARG PYTHON_MODULES=" \
      uwsgi \
      Werkzeug \
      wheel \
+     ptvsd \
      "
 
 RUN apk-install -t .build-deps $BUILD_DEPS \
     && pip install --no-cache-dir $PYTHON_MODULES \
+    && python -m compileall /usr/local/lib \    
     && install-deps /usr/local \
-    && apk del .build-deps \
     && rm -rf ~/.cache/pip && rm -rf /tmp/*
 
 RUN useradd -u 1001 -r -g 0 -d ${HOME} -s /sbin/nologin \
