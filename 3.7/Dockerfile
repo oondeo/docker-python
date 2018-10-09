@@ -1,7 +1,7 @@
 FROM python:3.7-alpine3.8
 
 ENV ALPINE_VERSION='3.8'
-
+ENV PYTHON_VERSION='3.7'
 
 ENV SUMMARY="python alpine base image"	\
     DESCRIPTION="Alpine base image. The image use scripts and configurations compatible \
@@ -161,9 +161,9 @@ ARG PYTHON_MODULES=" \
 
 RUN apk-install -t .build-deps $BUILD_DEPS \
     && pip install --no-cache-dir $PYTHON_MODULES \
-    && python -m compileall /usr/local/lib \    
+    && python -m compileall /usr/local/lib || true \    
     && install-deps /usr/local \
-    && rm -rf ~/.cache/pip && rm -rf /tmp/*
+    && rm -rf ~/.cache/pip  /tmp/*
 
 RUN useradd -u 1001 -r -g 0 -d ${HOME} -s /sbin/nologin \
       -c "Default Application User" default  || true
