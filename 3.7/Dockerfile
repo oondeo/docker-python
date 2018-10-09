@@ -180,5 +180,6 @@ RUN chown -R 1001:0 /opt/app-root \
     && chown 1001 /var/run /run 
 
 ENTRYPOINT [ "/sbin/tini", "-g" ,"--", "container-entrypoint" ]
+CMD [ "python3" ]
 
 USER 1001
